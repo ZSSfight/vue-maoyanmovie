@@ -1,0 +1,30 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "20919619",
+      "name": "资料",
+      "font_class": "ziliao",
+      "unicode": "f3ff",
+      "unicode_decimal": 62463
+    },
+    {
+      "icon_id": "20919629",
+      "name": "录像",
+      "font_class": "luxiang",
+      "unicode": "f409",
+      "unicode_decimal": 62473
+    },
+    {
+      "icon_id": "20919655",
+      "name": "会员",
+      "font_class": "huiyuan",
+      "unicode": "f41d",
+      "unicode_decimal": 62493
+    }
+  ]
+}
