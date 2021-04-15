@@ -1,14 +1,13 @@
 <template>
   <div>
     <tabbar></tabbar>
-    app
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 import tabbar from '@/components/Tabbar'
-import axios from 'axios'
+// import axios from 'axios'
 export default {
   data () {
     return {

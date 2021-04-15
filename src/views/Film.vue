@@ -1,19 +1,19 @@
 <template>
     <div>
-       <div style="height:300px;background:lightgreen">
-           轮播
-       </div>
-        <film-header></film-header>
+        <film-swiper></film-swiper>
+        <film-header style="position:sticky;top:0;background:white"></film-header>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
 import filmHeader from './film/FilmHeader'
+import filmSwiper from './film/FilmSwiper'
 export default {
-    components:{
-        filmHeader
-    }
+  components: {
+    filmHeader,
+    filmSwiper,
+  }
 }
 </script>
 

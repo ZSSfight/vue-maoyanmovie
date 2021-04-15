@@ -19,6 +19,6 @@
     }
     .active{
         color: red;
-        border-bottom: 3px red solid; 
+        border-bottom: 3px red solid;
     }
 </style>
