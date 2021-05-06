@@ -1,2 +1,2 @@
 PROJECT
-vue-猫眼电影
+vue-卖座电影

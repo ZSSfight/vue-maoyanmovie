@@ -31,6 +31,7 @@
         line-height: 25px;
         background: lightblue;
         text-align: center;
+        z-index: 99;
             ul {
             display: flex;
                 li {
