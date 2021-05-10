@@ -5,7 +5,8 @@
                 <div :style="{backgroundImage:'url('+data+')'}" style="height:200px;background-size:cover"></div>
             </div>
         </film-swiper>
-        <film-header style="position:sticky;top:0;background:white"></film-header>
+        <film-header style="position:sticky;top:0;background:white;z-index:99">
+        </film-header>
         <router-view></router-view>
     </div>
 </template>

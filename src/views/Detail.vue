@@ -2,11 +2,11 @@
     <div v-if="filminfo">
       <detail-header v-top :title='filminfo.name'></detail-header>
         <div :style="{background:'url('+filminfo.poster+')'}" style="height:200px;background-size:cover;background-position:center"></div>
-        <h3>{{filminfo.name}}--{{filminfo.filmType.name}}</h3>
-        <div>{{filminfo.category}}</div>
-        <div>{{filminfo.premiereAt}}</div>
-        <div>{{filminfo.nation}} | {{filminfo.runtime}}分钟</div>
-        <div :class="isShow? '' : 'synopsis'">{{filminfo.synopsis}}</div>
+        <h3 class="info">{{filminfo.name}}--{{filminfo.filmType.name}}</h3>
+        <div class="info">{{filminfo.category}}</div>
+        <div class="info">{{filminfo.premiereAt}}</div>
+        <div class="info">{{filminfo.nation}} | {{filminfo.runtime}}分钟</div>
+        <div :class="isShow? '' : 'synopsis'" class="info">{{filminfo.synopsis}}</div>
         <div style="text-align:center"><i class="iconfont" :class="isShow? 'icon-arrow-up-bold' : 'icon-arrow-down-bold'" @click="isShow=!isShow"></i></div>
 
         <h3>演职人员</h3>
@@ -24,7 +24,7 @@
           <detail-swiper :perslide='2' swiperclass='swiper-photos'>
             <div class="swiper-slide" v-for="(data,index) in filminfo.photos" :key="index">
                 <div :style="{background:'url('+data+')'}" style="height:100px;background-size:cover;
-                background-position:center;"></div>
+                background-position:center;" @click="handlePreview(index)"></div>
             </div>
           </detail-swiper>
     </div>
@@ -33,6 +33,7 @@
 import Vue from 'vue'
 import detailHeader from './detail/DetailHeader'
 import detailSwiper from './detail/DetailSwiper'
+import { ImagePreview } from 'vant'
 import zsshttp from '@/utli/zsshttp' // @表示指向src
 // import moment from 'momoent'
 // Vue.filter("dateFilter",(date) => {
@@ -61,6 +62,17 @@ export default {
       isShow: false
     }
   },
+  methods: {
+    handlePreview (index) {
+      ImagePreview({
+        images: this.filminfo.photos,
+        startPosition: index,
+        loop: false,
+        closeable: true,
+        closeIconPosition: 'top-left',
+      })
+    }
+  },
   components: {
     detailSwiper,
     detailHeader
@@ -84,5 +96,11 @@ export default {
   .synopsis{
     height: 50px;
     overflow: hidden;
+  }
+  .info{
+    font-size: 14px;
+    line-height: 25px;
+    margin-left: 5px;
+    margin-top: 5px;
   }
 </style>
