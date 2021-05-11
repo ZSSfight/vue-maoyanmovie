@@ -1,16 +1,32 @@
 <template>
-    <div class="cinema" :style="{height:height}">
-        <ul>
-            <li v-for="data in datalist" :key="data.cinemaId">
-                <div>{{data.name}}</div>
-                <div class="address">{{data.address}}</div>
-            </li>
-        </ul>
+    <div>
+        <van-nav-bar
+            title="影院"
+            >
+                <template #left>
+                    上海<van-icon name="arrow-down" color="black"/>
+                </template>
+                <template #right>
+                    <van-icon name="search" size="21" color="grey"/>
+                </template>
+        </van-nav-bar>
+        <div class="cinema" :style="{height:height}">
+            <ul>
+                <li v-for="data in datalist" :key="data.cinemaId">
+                    <div>{{data.name}}</div>
+                    <div class="address">{{data.address}}</div>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 <script>
 import zsshttp from '@/utli/zsshttp'
 import BetterScroll from 'better-scroll'
+import Vue from 'vue';
+import { NavBar,Icon } from 'vant';
+
+Vue.use(NavBar).use(Icon);
 export default {
       data () {
     return {
@@ -20,7 +36,7 @@ export default {
   },
     mounted(){
         //获取视窗高度
-            this.height = document.documentElement.clientHeight - 50 + 'px'
+            this.height = document.documentElement.clientHeight - 100 + 'px'
         zsshttp({
             url:"/gateway?cityId=310100&ticketFlag=1&k=2928645",
             headers:{

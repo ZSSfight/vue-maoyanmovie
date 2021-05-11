@@ -12,7 +12,7 @@
         <h3>演职人员</h3>
         <detail-swiper :perslide='3' swiperclass='swiper-actors'>
           <div class="swiper-slide" v-for="(data,index) in filminfo.actors" :key="index">
-            <img :src="data.avatarAddress">
+            <img :src="data.avatarAddress"> 
             <div style="text-align:center">
               <div>{{data.name}}</div>
               <div>{{data.role}}</div>
@@ -79,6 +79,8 @@ export default {
   },
   mounted () {
     // console.log('利用获取的id，ajax请求后端接口', this.$route.params.myid)
+
+
 
     zsshttp({
       url: `/gateway?filmId=${this.$route.params.myid}&k=6247852`,
