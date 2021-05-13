@@ -12,7 +12,7 @@
         <h3>演职人员</h3>
         <detail-swiper :perslide='3' swiperclass='swiper-actors'>
           <div class="swiper-slide" v-for="(data,index) in filminfo.actors" :key="index">
-            <img :src="data.avatarAddress"> 
+            <img :src="data.avatarAddress">
             <div style="text-align:center">
               <div>{{data.name}}</div>
               <div>{{data.role}}</div>
@@ -69,7 +69,7 @@ export default {
         startPosition: index,
         loop: false,
         closeable: true,
-        closeIconPosition: 'top-left',
+        closeIconPosition: 'top-left'
       })
     }
   },
@@ -78,9 +78,10 @@ export default {
     detailHeader
   },
   mounted () {
+    //详情页面隐藏tabbar底部
+    this.$store.commit("hidden")
+
     // console.log('利用获取的id，ajax请求后端接口', this.$route.params.myid)
-
-
 
     zsshttp({
       url: `/gateway?filmId=${this.$route.params.myid}&k=6247852`,
@@ -91,6 +92,11 @@ export default {
       // console.log(res.data.data.film)
       this.filminfo = res.data.data.film
     })
+  },
+
+  //显示tabbar底部栏
+  beforeDestroy(){
+    this.$store.commit("show")
   }
 }
 </script>

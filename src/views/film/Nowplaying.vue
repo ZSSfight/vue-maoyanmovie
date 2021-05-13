@@ -24,9 +24,9 @@
 <script>
 import zsshttp from '@/utli/zsshttp'
 import Vue from 'vue'
-import { List, Cell } from 'vant';
+import { List, Cell } from 'vant'
 
-Vue.use(List).use(Cell);  //全局注册
+Vue.use(List).use(Cell) // 全局注册
 Vue.filter('actorFilter', (actors) => {
   if (actors === undefined) return '暂无主演'
   return actors.map(item => item.name).join(' ')
@@ -43,13 +43,13 @@ export default {
       datalist: [],
       loading: false,
       finished: false,
-      current: 1,  //记录当前页数
-      total: 0,  //数据长度
+      current: 1, // 记录当前页数
+      total: 0 // 数据长度
     }
   },
   mounted () {
     zsshttp({
-      url: '/gateway?cityId=310100&pageNum=1&pageSize=10&type=1&k=3605518',
+      url: `/gateway?cityId=${this.$store.state.cityId}&pageNum=1&pageSize=10&type=1&k=3605518`,
       headers: {
         'X-Host': 'mall.film-ticket.film.list'
       }
@@ -60,25 +60,24 @@ export default {
   },
   methods: {
     onLoad () {
-      if(this.datalist.length === this.total){
-        this.finished = true;
+      if (this.datalist.length === this.total && this.datalist.length != 0) { // 避免详情滚动条到底后返回nowplaying界面，不可以底部加载的bug。
+        this.finished = true
         return
       }
-        console.log("到底了");
+      console.log('到底了')
+      // 1、ajax请求新页面数据；2、合并新数据到老数据；3、this.loading=false
+      this.current++
+      zsshttp({
+        url: `/gateway?cityId=${this.$store.state.cityId}&pageNum=${this.current}&pageSize=10&type=1&k=3605518`,
 
-        //1、ajax请求新页面数据；2、合并新数据到老数据；3、this.loading=false
-        this.current++;
-        zsshttp({
-          url: `/gateway?cityId=310100&pageNum=${this.current}&pageSize=10&type=1&k=3605518`,
+        // url: '/gateway?cityId=310100&pageNum=' + this.current + '&pageSize=10&type=1&k=3605518',
 
-          //          url: '/gateway?cityId=310100&pageNum=' + this.current + '&pageSize=10&type=1&k=3605518',
-
-          headers: {
-            'X-Host': 'mall.film-ticket.film.list'
-          }
+        headers: {
+          'X-Host': 'mall.film-ticket.film.list'
+        }
       }).then(res => {
         this.datalist = [...this.datalist, ...res.data.data.films]
-        this.loading = false;
+        this.loading = false
       })
     },
     handleClick (id) {
