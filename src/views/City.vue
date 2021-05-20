@@ -63,7 +63,7 @@ export default {
 
       Toast(index)
     },
-    handleChangePage (name,cityId) {
+    handleChangePage (name, cityId) {
       // cityId,cityName记录下来
       // this.$store.state.cityName = name
 

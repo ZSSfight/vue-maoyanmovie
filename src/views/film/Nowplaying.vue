@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     onLoad () {
-      if (this.datalist.length === this.total && this.datalist.length != 0) { // 避免详情滚动条到底后返回nowplaying界面，不可以底部加载的bug。
+      if (this.datalist.length === this.total && this.datalist.length !== 0) { // 避免详情滚动条到底后返回nowplaying界面，不可以底部加载的bug。
         this.finished = true
         return
       }

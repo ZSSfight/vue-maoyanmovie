@@ -3,6 +3,7 @@
         <van-nav-bar
           title="影院"
           @click-left="handleLeft()"
+          @click-right="handleRight()"
         >
             <template #left>
                 {{ $store.state.cityName }}<van-icon name="arrow-down" color="black"/>
@@ -13,7 +14,7 @@
         </van-nav-bar>
         <div class="cinema" :style="{height:height}">
             <ul>
-                <li v-for="data in datalist" :key="data.cinemaId">
+                <li v-for="data in $store.state.cinemaList" :key="data.cinemaId">
                     <div>{{data.name}}</div>
                     <div class="address">{{data.address}}</div>
                 </li>
@@ -22,7 +23,7 @@
     </div>
 </template>
 <script>
-import zsshttp from '@/utli/zsshttp'
+// import zsshttp from '@/utli/zsshttp'
 import BetterScroll from 'better-scroll'
 import Vue from 'vue'
 import { NavBar, Icon } from 'vant'
@@ -31,13 +32,18 @@ Vue.use(NavBar).use(Icon)
 export default {
   data () {
     return {
-      datalist: [],
       height: 0
     }
   },
   methods: {
     handleLeft () {
+      // 清空cinemaList
+      this.$store.commit('clearCinemaList')
+
       this.$router.push('/city')
+    },
+    handleRight () {
+      this.$router.push('/cinema/search')
     }
   },
   mounted () {
@@ -45,15 +51,20 @@ export default {
 
     // 获取视窗高度
     this.height = document.documentElement.clientHeight - 100 + 'px'
-    zsshttp({
-      url: `/gateway?cityId=${this.$store.state.cityId}&ticketFlag=1&k=2928645`,
-      headers: {
-        'X-Host': 'mall.film-ticket.cinema.list'
-      }
-    }).then(res => {
-      this.datalist = res.data.data.cinemas
 
-      // 状态立即更改，但是dom异步更新
+    if (this.$store.state.cinemaList.length === 0) {
+      // 异步流程
+      this.$store.dispatch('getCinemaList', this.$store.state.cityId).then(res => {
+        this.$nextTick(() => {
+          new BetterScroll('.cinema', {
+            scrollbar: {
+              fade: true
+            }
+          })
+        })
+      })
+    } else {
+      console.log('缓存')
       this.$nextTick(() => {
         new BetterScroll('.cinema', {
           scrollbar: {
@@ -61,7 +72,24 @@ export default {
           }
         })
       })
-    })
+    }
+    // zsshttp({
+    //   url: `/gateway?cityId=${this.$store.state.cityId}&ticketFlag=1&k=2928645`,
+    //   headers: {
+    //     'X-Host': 'mall.film-ticket.cinema.list'
+    //   }
+    // }).then(res => {
+    //   this.datalist = res.data.data.cinemas
+
+    //   // 状态立即更改，但是dom异步更新
+    //   // this.$nextTick(() => {
+    //   //   new BetterScroll('.cinema', {
+    //   //     scrollbar: {
+    //   //       fade: true
+    //   //     }
+    //   //   })
+    //   // })
+    // })
   }
 }
 </script>

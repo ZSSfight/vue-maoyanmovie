@@ -78,8 +78,8 @@ export default {
     detailHeader
   },
   mounted () {
-    //详情页面隐藏tabbar底部
-    this.$store.commit("hidden")
+    // 详情页面隐藏tabbar底部
+    this.$store.commit('hidden')
 
     // console.log('利用获取的id，ajax请求后端接口', this.$route.params.myid)
 
@@ -94,9 +94,9 @@ export default {
     })
   },
 
-  //显示tabbar底部栏
-  beforeDestroy(){
-    this.$store.commit("show")
+  // 显示tabbar底部栏
+  beforeDestroy () {
+    this.$store.commit('show')
   }
 }
 </script>
