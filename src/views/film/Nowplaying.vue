@@ -24,6 +24,7 @@
 <script>
 import zsshttp from '@/utli/zsshttp'
 import Vue from 'vue'
+import { mapState } from 'vuex'
 import { List, Cell } from 'vant'
 
 Vue.use(List).use(Cell) // 全局注册
@@ -49,7 +50,7 @@ export default {
   },
   mounted () {
     zsshttp({
-      url: `/gateway?cityId=${this.$store.state.cityId}&pageNum=1&pageSize=10&type=1&k=3605518`,
+      url: `/gateway?cityId=${this.cityId}&pageNum=1&pageSize=10&type=1&k=3605518`,
       headers: {
         'X-Host': 'mall.film-ticket.film.list'
       }
@@ -57,6 +58,9 @@ export default {
       this.datalist = res.data.data.films
       this.total = res.data.data.total
     })
+  },
+  computed:{
+...mapState('CityModule',['cityId'])
   },
   methods: {
     onLoad () {
@@ -68,7 +72,7 @@ export default {
       // 1、ajax请求新页面数据；2、合并新数据到老数据；3、this.loading=false
       this.current++
       zsshttp({
-        url: `/gateway?cityId=${this.$store.state.cityId}&pageNum=${this.current}&pageSize=10&type=1&k=3605518`,
+        url: `/gateway?cityId=${this.cityId}&pageNum=${this.current}&pageSize=10&type=1&k=3605518`,
 
         // url: '/gateway?cityId=310100&pageNum=' + this.current + '&pageSize=10&type=1&k=3605518',
 

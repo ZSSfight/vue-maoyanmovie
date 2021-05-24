@@ -19,6 +19,7 @@
 <script>
 import Vue from 'vue'
 import { Search, List, Cell } from 'vant'
+import { mapActions, mapState } from 'vuex'
 
 Vue.use(Search).use(List).use(Cell)
 export default {
@@ -28,20 +29,23 @@ export default {
     }
   },
   computed: {
+    ...mapState('CinemaModule',['cinemaList']),
+    ...mapState('CityModule',['cityId','cityName']),
     computedCinemaList () {
         if(this.value === '') return []
-      return this.$store.state.cinemaList.filter(item => item.name.toUpperCase().includes(this.value.toUpperCase()) || item.address.toUpperCase().includes(this.value.toUpperCase()))
+      return this.cinemaList.filter(item => item.name.toUpperCase().includes(this.value.toUpperCase()) || item.address.toUpperCase().includes(this.value.toUpperCase()))
     }
   },
   mounted () {
-    if (this.$store.state.cinemaList.length === 0) {
+    if (this.cinemaList.length === 0) {
       // 异步流程
-      this.$store.dispatch('getCinemaList', this.$store.state.cityId)
+      this.getCinemaList(this.cityId)
     } else {
       console.log('缓存')
     }
   },
   methods:{
+    ...mapActions('CinemaModule',['getCinemaList']),
       onCancel(){
           //push(主要是列表到详情) back relpace
           this.$router.replace('/cinema')

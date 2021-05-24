@@ -9,6 +9,7 @@
     </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 import zsshttp from '@/utli/zsshttp'
 import Vue from 'vue'
 import { IndexBar, IndexAnchor, Cell, Toast } from 'vant'
@@ -39,6 +40,7 @@ export default {
     })
   },
   methods: {
+    ...mapMutations('CityModule',['changeCityName','changeCityId']),
     handleCityData (cities) {
       const letterArr = []
       const newCities = []
@@ -67,8 +69,10 @@ export default {
       // cityId,cityName记录下来
       // this.$store.state.cityName = name
 
-      this.$store.commit('changeCityName', name)
-      this.$store.commit('changeCityId', cityId)
+      // this.$store.commit('changeCityName', name)
+      // this.$store.commit('changeCityId', cityId)
+      this.changeCityName(name)
+      this.changeCityId(cityId)
       this.$router.back()
     }
   }

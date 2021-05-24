@@ -6,7 +6,7 @@
           @click-right="handleRight()"
         >
             <template #left>
-                {{ $store.state.cityName }}<van-icon name="arrow-down" color="black"/>
+                {{ cityName }}<van-icon name="arrow-down" color="black"/>
             </template>
             <template #right>
                 <van-icon name="search" size="21" color="grey"/>
@@ -14,7 +14,7 @@
         </van-nav-bar>
         <div class="cinema" :style="{height:height}">
             <ul>
-                <li v-for="data in $store.state.cinemaList" :key="data.cinemaId">
+                <li v-for="data in cinemaList" :key="data.cinemaId">
                     <div>{{data.name}}</div>
                     <div class="address">{{data.address}}</div>
                 </li>
@@ -27,6 +27,7 @@
 import BetterScroll from 'better-scroll'
 import Vue from 'vue'
 import { NavBar, Icon } from 'vant'
+import { mapActions, mapMutations, mapState } from 'vuex'
 
 Vue.use(NavBar).use(Icon)
 export default {
@@ -36,9 +37,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions('CinemaModule',['getCinemaList']),
+    ...mapMutations('CinemaModule',['clearCinemaList']),
     handleLeft () {
       // 清空cinemaList
-      this.$store.commit('clearCinemaList')
+      this.clearCinemaList()
 
       this.$router.push('/city')
     },
@@ -46,15 +49,19 @@ export default {
       this.$router.push('/cinema/search')
     }
   },
+  computed:{
+...mapState('CinemaModule', ['cinemaList']),
+...mapState('CityModule',['cityId','cityName'])
+  },
   mounted () {
     // 访问cityId，cityName
 
     // 获取视窗高度
     this.height = document.documentElement.clientHeight - 100 + 'px'
 
-    if (this.$store.state.cinemaList.length === 0) {
+    if (this.cinemaList.length === 0) {
       // 异步流程
-      this.$store.dispatch('getCinemaList', this.$store.state.cityId).then(res => {
+      this.getCinemaList(this.cityId).then(res => {
         this.$nextTick(() => {
           new BetterScroll('.cinema', {
             scrollbar: {

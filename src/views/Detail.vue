@@ -1,4 +1,5 @@
 <template>
+  <v-touch @swiperight="onSwipeRight">
     <div v-if="filminfo">
       <detail-header v-top :title='filminfo.name'></detail-header>
         <div :style="{background:'url('+filminfo.poster+')'}" style="height:200px;background-size:cover;background-position:center"></div>
@@ -28,13 +29,17 @@
             </div>
           </detail-swiper>
     </div>
+    </v-touch>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 import Vue from 'vue'
 import detailHeader from './detail/DetailHeader'
 import detailSwiper from './detail/DetailSwiper'
 import { ImagePreview } from 'vant'
 import zsshttp from '@/utli/zsshttp' // @表示指向src
+import VueTouch from 'vue-touch'
+Vue.use(VueTouch)
 // import moment from 'momoent'
 // Vue.filter("dateFilter",(date) => {
 //   //日期处理--moment
@@ -63,6 +68,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('TabbarModule',['show','hidden']),
     handlePreview (index) {
       ImagePreview({
         images: this.filminfo.photos,
@@ -71,6 +77,10 @@ export default {
         closeable: true,
         closeIconPosition: 'top-left'
       })
+    },
+    onSwipeRight(){
+      console.log('right');
+      this.$router.back();
     }
   },
   components: {
@@ -79,7 +89,7 @@ export default {
   },
   mounted () {
     // 详情页面隐藏tabbar底部
-    this.$store.commit('hidden')
+    // this.$store.commit('hidden')
 
     // console.log('利用获取的id，ajax请求后端接口', this.$route.params.myid)
 
@@ -96,7 +106,7 @@ export default {
 
   // 显示tabbar底部栏
   beforeDestroy () {
-    this.$store.commit('show')
+    // this.$store.commit('show')
   }
 }
 </script>

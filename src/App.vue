@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tabbar v-show="$store.state.isTabbarShow"></tabbar>
+    <tabbar v-show="isTabbarShow"></tabbar>
     <section>
           <router-view></router-view>
     </section>
@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import tabbar from '@/components/Tabbar'
 // import axios from 'axios'
 export default {
@@ -16,15 +17,22 @@ export default {
 
     }
   },
+  computed:{
+    ...mapState('TabbarModule',['isTabbarShow'])
+  },
+
+  mounted(){
+
+  },
   components: {
     tabbar
   },
-  mouted () {
-    // 1-maoyan
-    // axios.get('/ajax/movieOnInfoList?token=&optimus_uuid=7E9D21209B8311EBA8CC59DEC67D658B7A985CAAA0E6439A83C4605A52BAFE1B&optimus_risk_level=71&optimus_code=10').then(res => {
-    //   console.log(res.data)
-    // })
-  }
+  // mounted () {
+  //   // 1-maoyan
+  //   // axios.get('/ajax/movieOnInfoList?token=&optimus_uuid=7E9D21209B8311EBA8CC59DEC67D658B7A985CAAA0E6439A83C4605A52BAFE1B&optimus_risk_level=71&optimus_code=10').then(res => {
+  //   //   console.log(res.data)
+  //   // })
+  // }
 }
 </script>
 <style>
