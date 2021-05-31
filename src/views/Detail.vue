@@ -1,9 +1,14 @@
 <template>
   <v-touch @swiperight="onSwipeRight">
+    <van-nav-bar left-text="返回"
+      left-arrow
+      @click-left="onClickLeft"
+    />
     <div v-if="filminfo">
       <detail-header v-top :title='filminfo.name'></detail-header>
-        <div :style="{background:'url('+filminfo.poster+')'}" style="height:200px;background-size:cover;background-position:center"></div>
-        <h3 class="info">{{filminfo.name}}--{{filminfo.filmType.name}}</h3>
+        <!-- <div :style="{background:'url('+filminfo.poster+')'}" style="height:200px;background-size:cover;background-position:center"></div> -->
+          <van-image width="375px" height="200px" fit="cover" :src="filminfo.poster"/>
+        <h3 id="title" class="info">{{filminfo.name}}--{{filminfo.filmType.name}}</h3>
         <div class="info">{{filminfo.category}}</div>
         <div class="info">{{filminfo.premiereAt}}</div>
         <div class="info">{{filminfo.nation}} | {{filminfo.runtime}}分钟</div>
@@ -40,6 +45,8 @@ import { ImagePreview } from 'vant'
 import zsshttp from '@/utli/zsshttp' // @表示指向src
 import VueTouch from 'vue-touch'
 Vue.use(VueTouch)
+import { NavBar, Image as VanImage, Sticky } from 'vant';
+Vue.use(NavBar).use(VanImage).use(Sticky);
 // import moment from 'momoent'
 // Vue.filter("dateFilter",(date) => {
 //   //日期处理--moment
@@ -47,9 +54,9 @@ Vue.use(VueTouch)
 // })
 Vue.directive('top', {
   inserted (el) {
-    el.style.display = 'none'
+    el.style.display = 'block'
     window.onscroll = () => {
-      if ((document.body.scrollTop || document.documentElement.scrollTop) > 50) {
+      if ((document.body.scrollTop || document.documentElement.scrollTop) > 40) {
         el.style.display = 'block'
       } else {
         el.style.display = 'none'
@@ -80,6 +87,9 @@ export default {
     },
     onSwipeRight(){
       console.log('right');
+      this.$router.back();
+    },
+    onClickLeft(){
       this.$router.back();
     }
   },
@@ -120,5 +130,8 @@ export default {
     line-height: 25px;
     margin-left: 5px;
     margin-top: 5px;
+  }
+  #title{
+    font-size: 20px;
   }
 </style>

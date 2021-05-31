@@ -11,6 +11,7 @@ export default {
 <style lang="scss" scoped>
     div{
         position: fixed;
+        z-index: 88;
         left: 0;
         top: 0;
         text-align: center;
